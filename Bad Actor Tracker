@@ -1,0 +1,115 @@
+Private Sub CommandButton1_Click()
+
+'Declaring pages in workbook'
+
+    Dim Unit821 As Worksheet, Unit829 As Worksheet, Unit850 As Worksheet, Unit880 As Worksheet, DataDump As Worksheet
+
+'Declaring Variables which are the 5 business units that are being reported and the datadump worksheet where the raw data file is uploaded'
+
+    Set Unit821 = ThisWorkbook.Worksheets("Unit-821")
+    Set Unit829 = ThisWorkbook.Worksheets("Unit 829")
+    Set Unit840 = ThisWorkbook.Worksheets("Unit 840")
+    Set Unit850 = ThisWorkbook.Worksheets("Unit 850")
+    Set Unit880 = ThisWorkbook.Worksheets("Unit 880")
+    Set DataDump = ThisWorkbook.Worksheets("DATA DUMP")
+    
+'Setting the range for each worksheet'
+    
+    Unit821.Range("A2:A30").Clear
+    Unit829.Range("B2:B30").Clear
+    Unit840.Range("B2:B30").Clear
+    Unit850.Range("B2:B30").Clear
+    Unit880.Range("B2:B30").Clear
+            
+'Turns off side operations while macro is running to increase speed'
+     
+    Call TurnOffStuff
+             
+'Sorts through imported data and checks to see if the number of reported equipment failures is greater than or equal to 2 and copies row data over to corresponding worksheet for 1 of the 5 business units'
+
+    Dim i As Long, row As Long
+    row = 2
+    For i = 3 To DataDump.Cells(Rows.Count, 1).End(xlUp).row
+    
+        If DataDump.Cells(i, 7).Value >= 2 And DataDump.Cells(i, 4).Value = "821" Then
+        
+            Unit821.Cells(row, 1).Value = DataDump.Cells(i, 1).Value
+            
+            row = row + 1
+    
+        End If
+        
+    Next i
+    row = 2
+    For i = 3 To DataDump.Cells(Rows.Count, 1).End(xlUp).row
+    
+        If DataDump.Cells(i, 7).Value >= 2 And DataDump.Cells(i, 4).Value = "829" Then
+        
+            Unit829.Cells(row, 2).Value = DataDump.Cells(i, 1).Value
+            
+            row = row + 1
+    
+        End If
+        
+    Next i
+    row = 2
+    For i = 3 To DataDump.Cells(Rows.Count, 1).End(xlUp).row
+    
+        If DataDump.Cells(i, 7).Value >= 2 And DataDump.Cells(i, 4).Value = "840" Then
+        
+            Unit840.Cells(row, 2).Value = DataDump.Cells(i, 1).Value
+            
+            row = row + 1
+    
+        End If
+        
+    Next i
+    row = 2
+    For i = 3 To DataDump.Cells(Rows.Count, 1).End(xlUp).row
+    
+        If DataDump.Cells(i, 7).Value >= 2 And DataDump.Cells(i, 4).Value = "850" Then
+        
+            Unit850.Cells(row, 2).Value = DataDump.Cells(i, 1).Value
+            
+            row = row + 1
+    
+        End If
+        
+    Next i
+    row = 2
+    For i = 3 To DataDump.Cells(Rows.Count, 1).End(xlUp).row
+    
+        If DataDump.Cells(i, 7).Value >= 2 And DataDump.Cells(i, 4).Value = "880" Then
+        
+            Unit880.Cells(row, 2).Value = DataDump.Cells(i, 1).Value
+            
+            row = row + 1
+    
+        End If
+        
+    Next i
+     
+'Turns excel activities back on to function as normal after the macro has finished'
+  
+    Call TurnOnStuff
+ 
+    
+    
+End Sub
+
+
+Sub TurnOffStuff()
+
+    Application.Calculation = xlCalculationManual
+    Application.ScreenUpdating = False
+    Application.EnableEvents = False
+    
+End Sub
+
+Sub TurnOnStuff()
+    
+    Application.Calculation = xlCalculationAutomatic
+    Application.ScreenUpdating = True
+    Application.EnableEvents = True
+    
+End Sub
